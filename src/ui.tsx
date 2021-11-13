@@ -4,7 +4,7 @@ import { Text, TextProps, useApp, useInput } from "ink";
 import SelectInput from "ink-select-input";
 import { formatRelative, parseISO } from "date-fns";
 
-const git = simpleGit();
+const git = simpleGit(process.cwd());
 
 function ConfirmInput({
 	message,

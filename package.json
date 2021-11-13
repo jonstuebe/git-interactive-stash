@@ -1,14 +1,20 @@
 {
 	"name": "git-interactive-stash",
-	"version": "0.0.0",
+	"version": "0.1.0",
+	"author": {
+		"name": "Jon Stuebe",
+		"email": "jstuebe@gmail.com"
+	},
 	"license": "MIT",
 	"bin": "dist/cli.js",
 	"engines": {
 		"node": ">=10"
 	},
 	"scripts": {
-		"build": "tsc",
-		"start": "node -r esbuild-register src/cli.tsx"
+		"start": "node -r esbuild-register src/cli.tsx",
+		"type-check": "tsc --noEmit",
+		"clean": "rimraf dist",
+		"build": "yarn clean && esbuild src/cli.tsx --bundle --platform=node --outdir=dist --minify"
 	},
 	"files": [
 		"dist/cli.js"
@@ -22,11 +28,13 @@
 		"ink-spinner": "^4.0.3",
 		"meow": "^9.0.0",
 		"react": "^17.0.2",
+		"rimraf": "^3.0.2",
 		"simple-git": "^2.47.0"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^2.0.0",
 		"@types/date-fns": "^2.6.0",
+		"@types/node": "^16.11.7",
 		"@types/react": "^17.0.34",
 		"chalk": "^4.1.2",
 		"eslint-config-xo-react": "^0.25.0",

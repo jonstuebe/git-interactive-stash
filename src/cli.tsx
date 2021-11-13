@@ -22,8 +22,4 @@ import App from "./ui";
 // 	}
 // });
 
-(async () => {
-	const { waitUntilExit } = render(<App />);
-
-	await waitUntilExit();
-})();
+render(<App />);
