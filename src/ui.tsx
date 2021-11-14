@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import simpleGit, { DefaultLogFields, ListLogLine } from "simple-git";
-import { Text, TextProps, useApp, useInput } from "ink";
+import { Box, Text, TextProps, useApp, useInput } from "ink";
 import SelectInput from "ink-select-input";
 import { formatRelative, parseISO } from "date-fns";
+import Spinner from "ink-spinner";
 
 const git = simpleGit(process.cwd());
 
@@ -39,6 +40,7 @@ function ConfirmInput({
 
 function App() {
 	const { exit } = useApp();
+	const [isLoading, setIsLoading] = useState(true);
 	const [stashes, setStashes] = useState<
 		readonly (DefaultLogFields & ListLogLine)[]
 	>([]);
@@ -49,9 +51,20 @@ function App() {
 	useEffect(() => {
 		(async () => {
 			const stashes = (await git.stashList()).all;
+
 			setStashes(stashes);
+			setIsLoading(false);
 		})();
 	}, []);
+
+	if (isLoading) {
+		return (
+			<Box flexDirection="row">
+				<Spinner type="dots" />
+				<Text>loading stashes</Text>
+			</Box>
+		);
+	}
 
 	if (selectedStashIndex) {
 		return (
@@ -76,6 +89,10 @@ function App() {
 				/>
 			</>
 		);
+	}
+
+	if (stashes.length === 0) {
+		return <Text bold>No Stashes Found</Text>;
 	}
 
 	// choose stash ui
